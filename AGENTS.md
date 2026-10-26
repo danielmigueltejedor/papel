@@ -115,3 +115,13 @@ PrintCraft opens files from strangers, and people trust it with their work. A ma
 ## 5. Everything else
 
 Follow `CLAUDE.md`. It covers quality gates, layering, commit rules and how to run and look at the app.
+
+## Repository-specific deterministic quality contract (2026-10-26)
+
+**Project:** Rust desktop/document workspace.
+
+**Engineering requirements:** Preserve document import/export, data encoding, text layout and backward compatibility.
+
+**Verification commands:** cargo fmt --all -- --check; cargo metadata --locked --no-deps --format-version 1; targeted cargo test.
+
+Run relevant tests and give actual outputs, including failures. Add regression coverage for behavior, edges and error paths. Never weaken/delete/skip tests, suppress errors or reduce thresholds solely to get CI green. Changes to this file, `QUALITY_GATES.md`, workflows and test policy require human review. Make the `quality` check required on protected branches. Disclose missing system dependencies. Preserve existing instructions.
