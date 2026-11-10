@@ -1,35 +1,23 @@
-# PrintCraft app icon
+# Papel app icon
 
-<img src="printcraft-small.svg" alt="PrintCraft app icon: an engraved lion's head on green" width="128">
+**Figure:** Aldus Manutius. He created the pocket book, the first portable document.
 
-**Creature:** a lion, in a frontal head-and-shoulders portrait, mane running off the bottom of the tile.
+**Style:** a black-and-white portrait cut out over a full-bleed colour field, head and shoulders, in
+the Nodalia icon family (one historical figure per app, one colour per app).
 
-**Style:** an engraving (woodcut-weight line work) portrait in the Crafting Apps "owl template" framing:
-a full-bleed colour field, no frame or roundel, the animal looking at the viewer and filling the tile.
+**Tile:** 512 × 512 viewBox, rounded square `rx=112`, clipped; no border or roundel.
 
-**Palette:** exactly three colours.
-
-| Colour | Hex | Used for |
-|---|---|---|
-| Ink | `#0b0b0c` | line work and the figure's contour |
-| Paper | `#efe9dc` | the figure (the lion's silhouette) |
-| PrintCraft green (app colour) | `#12a58a` | the full-bleed field |
-
-**Tile:** `viewBox="0 0 512 512"`, a rounded square with `rx=112` that clips everything. Windows and Linux
-icons use the full-bleed tile. macOS icons put it on Apple's grid (an 824 px body centred on a transparent
-1024 px canvas).
-
-**Provenance:** the project owner's original drawing, made in ArtCraft (2880 px, keyed to the palette), then
-vectorised with craftrules `assets/logo-options/_tools/vectorize_tile.py` (potrace; no filtering or
-warping). The source drawing is kept in craftrules at `assets/app-icons/printcraft/source.png`, not here.
-Licence: [LICENSE.txt](LICENSE.txt) (`MIT OR Apache-2.0`, like the repo).
+**Provenance:** the portrait is "Aldus Manutius.png" from
+[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Aldus_Manutius.png) (public domain). The figure was separated from its
+background, converted to black and white and placed over the app colour.
+Licence: see [LICENSE.txt](LICENSE.txt).
 
 ## Files
 
 | File | What it is |
 |---|---|
-| `printcraft.svg` | the master vector (traced at 2048 px); every PNG, `.ico` and `.icns` is rendered from it |
-| `printcraft-small.svg` | a lighter vector (traced at 1024 px) for places where size matters, such as this README |
+| `printcraft.svg` | master: the portrait as a 1024 px image embedded in an SVG with the tile clip (canonical) |
+| `printcraft-small.svg` | lighter 512 px version; also the scalable Linux icon and the web favicon where there is one |
 | `printcraft-1024.png` | 1024 px on Apple's grid; also the runtime Dock icon on macOS |
 | `printcraft.icns` | macOS icon (16–1024 px) |
 | `printcraft.ico` | Windows icon (16–256 px), embedded in `printcraft.exe` by `apps/printcraft/build.rs` |
@@ -42,7 +30,7 @@ hicolor icon.
 
 ## Regenerate
 
-```sh
-packaging/icons.sh        # needs resvg and python3; iconutil (macOS) for the .icns
-cargo xtask assets        # then update the sha256 values in ATTRIBUTION.toml and run with --write
-```
+The icon is a raster portrait, so the SVG files embed an image instead of traced paths. The
+derived files in this directory were rendered directly from the portrait. `packaging/icons.sh`
+still works on `printcraft.svg` (resvg renders embedded images), but its output will differ slightly
+from the committed files in resampling.
