@@ -16,21 +16,29 @@ Licence: see [LICENSE.txt](LICENSE.txt).
 
 | File | What it is |
 |---|---|
-| `printcraft.svg` | master: the portrait as a 1024 px image embedded in an SVG with the tile clip (canonical) |
-| `printcraft-small.svg` | lighter 512 px version; also the scalable Linux icon and the web favicon where there is one |
-| `printcraft-1024.png` | 1024 px on Apple's grid; also the runtime Dock icon on macOS |
-| `printcraft.icns` | macOS icon (16–1024 px) |
-| `printcraft.ico` | Windows icon (16–256 px), embedded in `printcraft.exe` by `apps/printcraft/build.rs` |
-| `hicolor/<n>x<n>/apps/ai.storyteller.printcraft.png` | Linux hicolor theme, 16–512 px; the 256 px one is the runtime icon on Windows and Linux |
-| `hicolor/scalable/apps/ai.storyteller.printcraft.svg` | Linux scalable icon (copy of the master) |
+| `pdfcraft.svg` | master: the portrait as a 1024 px image embedded in an SVG with the tile clip (canonical) |
+| `pdfcraft-small.svg` | lighter 512 px version; also the scalable Linux icon and the web favicon where there is one |
+| `pdfcraft-1024.png` | 1024 px on Apple's grid; also the runtime Dock icon on macOS |
+| `pdfcraft.icns` | macOS icon (16–1024 px) |
+| `pdfcraft.ico` | Windows icon (16–256 px), embedded in `pdfcraft.exe` by `apps/pdfcraft/build.rs` |
+| `pdfcraft-document.svg` | Windows PDF file icon master: a Lucide document outline, red badge and outlined PDF lettering; no font dependency |
+| `pdfcraft-document.ico` | Windows PDF file icon (16–256 px), embedded as resource 2 in `pdfcraft.exe` |
+| `hicolor/<n>x<n>/apps/ai.storyteller.pdfcraft.png` | Linux hicolor theme, 16–512 px; the 256 px one is the runtime icon on Windows and Linux |
+| `hicolor/scalable/apps/ai.storyteller.pdfcraft.svg` | Linux scalable icon (copy of the master) |
 
-Where it shows: `apps/printcraft/src/main.rs` sets the window icon (Dock, taskbar, Alt-Tab, launcher) and the
-Wayland app id `ai.storyteller.printcraft`; `packaging/linux/ai.storyteller.printcraft.desktop` names the
+Where it shows: `apps/pdfcraft/src/main.rs` sets the window icon (Dock, taskbar, Alt-Tab, launcher) and the
+Wayland app id `ai.storyteller.pdfcraft`; `packaging/linux/ai.storyteller.pdfcraft.desktop` names the
 hicolor icon.
+
+Windows PDF files use resource 2 (`"pdfcraft.exe",-2`) when PdfCraft is chosen as the default
+reader; the app keeps resource 1. The document outline is adapted from Lucide `file-text`
+1.49.0 (ISC); its badge and outlined lettering are original (`MIT OR Apache-2.0`), covered by
+[LICENSE-document.txt](LICENSE-document.txt). Both icons are embedded, requiring no runtime
+sidecar. This provides a file type icon; first-page thumbnails still need a thumbnail provider.
 
 ## Regenerate
 
 The icon is a raster portrait, so the SVG files embed an image instead of traced paths. The
 derived files in this directory were rendered directly from the portrait. `packaging/icons.sh`
-still works on `printcraft.svg` (resvg renders embedded images), but its output will differ slightly
+still works on `pdfcraft.svg` (resvg renders embedded images), but its output will differ slightly
 from the committed files in resampling.
