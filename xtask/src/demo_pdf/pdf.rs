@@ -75,20 +75,11 @@ impl Stamp {
     }
 
     pub fn from_unix(secs: i64) -> Self {
-        let days = secs.div_euclid(86_400);
-        let rem = secs.rem_euclid(86_400);
+        let (days, rem) = (secs.div_euclid(86_400), secs.rem_euclid(86_400));
         let (h, mi, s) = (rem / 3600, rem % 3600 / 60, rem % 60);
-        // Civil-from-days (Howard Hinnant's algorithm).
-        let z = days + 719_468;
-        let era = z.div_euclid(146_097);
-        let doe = z - era * 146_097;
-        let yoe = (doe - doe / 1460 + doe / 36_524 - doe / 146_096) / 365;
-        let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
-        let mp = (5 * doy + 2) / 153;
-        let d = doy - (153 * mp + 2) / 5 + 1;
-        let m = if mp < 10 { mp + 3 } else { mp - 9 };
-        let y = yoe + era * 400 + i64::from(m <= 2);
-        Stamp { unix: secs, pdf: format!("D:{y:04}{m:02}{d:02}{h:02}{mi:02}{s:02}Z"), iso: format!("{y:04}-{m:02}-{d:02}T{h:02}:{mi:02}:{s:02}Z") }
+        let (y, m, d) = pdfcraft_cos::civil_from_days(days);
+        // `{y:04}` rather than `%Y`, which writes a `+` before years past 9999.
+        Stamp { unix: secs, pdf: pdfcraft_cos::pdf_date(secs), iso: format!("{y:04}-{m:02}-{d:02}T{h:02}:{mi:02}:{s:02}Z") }
     }
 
     /// The same moment shifted by `minutes` (used to order threaded replies).
@@ -351,20 +342,41 @@ pub fn pdf_string(s: &str) -> String {
 }
 
 /// Map text to WinAnsiEncoding bytes (unmappable characters become `?`).
+///
+/// Mirrors `pdfcraft_fonts::win_ansi` (ISO 32000-2 Annex D), which xtask doesn't depend on;
+/// keep the 0x80–0x9F rows in step with `crates/fonts/src/encodings.rs`.
 pub fn winansi(s: &str) -> Vec<u8> {
     s.chars()
         .map(|c| match c {
             '\u{20}'..='\u{7e}' => c as u8,
             '\u{a0}'..='\u{ff}' => c as u32 as u8,
-            '\u{2022}' => 0x95,
-            '\u{2013}' => 0x96,
-            '\u{2014}' => 0x97,
+            '\u{20ac}' => 0x80,
+            '\u{201a}' => 0x82,
+            '\u{0192}' => 0x83,
+            '\u{201e}' => 0x84,
+            '\u{2026}' => 0x85,
+            '\u{2020}' => 0x86,
+            '\u{2021}' => 0x87,
+            '\u{02c6}' => 0x88,
+            '\u{2030}' => 0x89,
+            '\u{0160}' => 0x8a,
+            '\u{2039}' => 0x8b,
+            '\u{0152}' => 0x8c,
+            '\u{017d}' => 0x8e,
             '\u{2018}' => 0x91,
             '\u{2019}' => 0x92,
             '\u{201c}' => 0x93,
             '\u{201d}' => 0x94,
-            '\u{2026}' => 0x85,
-            '\u{20ac}' => 0x80,
+            '\u{2022}' => 0x95,
+            '\u{2013}' => 0x96,
+            '\u{2014}' => 0x97,
+            '\u{02dc}' => 0x98,
+            '\u{2122}' => 0x99,
+            '\u{0161}' => 0x9a,
+            '\u{203a}' => 0x9b,
+            '\u{0153}' => 0x9c,
+            '\u{017e}' => 0x9e,
+            '\u{0178}' => 0x9f,
             _ => b'?',
         })
         .collect()
@@ -408,11 +420,28 @@ mod tests {
         assert_eq!(s.iso, "2026-09-21T14:13:20Z");
         assert_eq!(s.plus_minutes(0).pdf, s.pdf);
         assert_eq!(s.plus_minutes(60 * 24).iso, "2026-09-22T14:13:20Z");
+        // Years past 9999 keep the plain zero-padded year (no `+`).
+        assert_eq!(Stamp::from_unix(253_402_300_800).iso, "10000-01-01T00:00:00Z");
+        assert_eq!(Stamp::from_unix(253_402_300_800).pdf, "D:100000101000000Z");
+        // Past chrono's ±262143-year range the proleptic Gregorian date is kept, not the epoch.
+        // Pinned to the old hand-rolled output (no year clamp — a negative year keeps its sign).
+        assert_eq!(Stamp::from_unix(10_000_000_000_000).iso, "318857-05-20T17:46:40Z");
+        assert_eq!(Stamp::from_unix(10_000_000_000_000).pdf, "D:3188570520174640Z");
+        assert_eq!(Stamp::from_unix(-10_000_000_000_000).iso, "-314918-08-13T06:13:20Z");
     }
 
     #[test]
     fn strings_are_escaped() {
         assert_eq!(pdf_string("a(b)\\"), "(a\\(b\\)\\\\)");
         assert_eq!(pdf_string("—"), "(\\227)");
+    }
+
+    #[test]
+    fn winansi_covers_the_0x80_to_0x9f_glyphs() {
+        // The 27 defined codes of ISO 32000-2 Annex D WinAnsiEncoding between 0x80 and 0x9F.
+        let high = "€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ";
+        let want: Vec<u8> = (0x80..=0x9f).filter(|b| ![0x81, 0x8d, 0x8f, 0x90, 0x9d].contains(b)).collect();
+        assert_eq!(winansi(high), want);
+        assert_eq!(winansi("č"), b"?");
     }
 }

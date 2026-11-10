@@ -1,4 +1,4 @@
-Papel app icon (printcraft.svg, printcraft-small.svg and every file derived from them in this
+Papel app icon (pdfcraft.svg, pdfcraft-small.svg and every file derived from them in this
 directory, and the web favicon where the project has one).
 
 The icon is a portrait of Aldus Manutius cut out, converted to black and white and placed over the
