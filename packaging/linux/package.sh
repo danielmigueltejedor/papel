@@ -75,6 +75,10 @@ sed -e "s/@VERSION@/$VERSION/g" -e "s/@DATE@/$PDFCRAFT_BUILD_DATE/g" \
   "$HERE/$APP_ID.metainfo.xml.in" >"$STAGE/usr/share/metainfo/$APP_ID.metainfo.xml"
 mkdir -p "$STAGE/usr/share/icons"
 cp -R "$ROOT/assets/app-icon/hicolor" "$STAGE/usr/share/icons/"
+
+# The .desktop names the icon dev.danielmiguelt.Papel, the Nodalia name, so an icon theme can
+# tell this app from the Craft app that shares its ID.
+for f in "$STAGE"/usr/share/icons/hicolor/*/apps/"$APP_ID".*; do cp "$f" "${f%/*}/dev.danielmiguelt.Papel.${f##*.}"; done
 mkdir -p "$STAGE/usr/share/doc/pdfcraft"
 copy_docs "$STAGE/usr/share/doc/pdfcraft"
 # OCR models: the app finds them at <bin>/../share/pdfcraft/models, so in every format below.
@@ -156,6 +160,7 @@ if has appimage; then
   ln -s usr/bin/pdfcraft "$APPDIR/AppRun"
   cp "$HERE/$APP_ID.desktop" "$APPDIR/$APP_ID.desktop"
   cp "$ROOT/assets/app-icon/hicolor/256x256/apps/$APP_ID.png" "$APPDIR/$APP_ID.png"
+  cp "$ROOT/assets/app-icon/hicolor/256x256/apps/$APP_ID.png" "$APPDIR/dev.danielmiguelt.Papel.png"
   ln -s "$APP_ID.png" "$APPDIR/.DirIcon"
 
   TOOL="${APPIMAGETOOL:-$(command -v appimagetool || true)}"
