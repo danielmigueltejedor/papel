@@ -78,7 +78,7 @@ cp -R "$ROOT/assets/app-icon/hicolor" "$STAGE/usr/share/icons/"
 
 # The .desktop names the icon dev.danielmiguelt.Papel, the Nodalia name, so an icon theme can
 # tell this app from the Craft app that shares its ID.
-for f in "$STAGE"/usr/share/icons/hicolor/*/apps/"$APP_ID".*; do cp "$f" "${f%/*}/dev.danielmiguelt.Papel.${f##*.}"; done
+for f in "$STAGE"/usr/share/icons/hicolor/*/apps/"$APP_ID".{png,svg}; do cp "$f" "${f%/*}/dev.danielmiguelt.Papel.${f##*.}"; done
 mkdir -p "$STAGE/usr/share/doc/pdfcraft"
 copy_docs "$STAGE/usr/share/doc/pdfcraft"
 # OCR models: the app finds them at <bin>/../share/pdfcraft/models, so in every format below.
