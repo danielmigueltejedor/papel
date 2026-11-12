@@ -6,7 +6,7 @@
     </picture>
   </a>
   <br><br>
-  <img src="https://raw.githubusercontent.com/danielmigueltejedor/papel/main/assets/app-icon/hicolor/512x512/apps/ai.storyteller.pdfcraft.png" width="160" alt="Papel">
+  <img src="https://raw.githubusercontent.com/danielmigueltejedor/papel/main/assets/app-icon/hicolor/512x512/apps/ai.storyteller.pdfcraft.png" width="192" alt="Papel">
   <h1>Papel</h1>
   <p><strong>A PDF document editor for the Nodalia suite, built on the PdfCraft engine.</strong></p>
 
