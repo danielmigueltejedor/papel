@@ -64,8 +64,10 @@ fi
 rm -rf "$WORK"
 mkdir -p "$WORK/bin"
 for bin in pdfcraft pdfcraft-cli; do
+  source_bin="$bin"
+  if [[ "$bin" == pdfcraft ]]; then source_bin=papel; fi
   inputs=()
-  for t in "${TARGETS[@]}"; do inputs+=("$CARGO_TARGET_DIR/$t/release/$bin"); done
+  for t in "${TARGETS[@]}"; do inputs+=("$CARGO_TARGET_DIR/$t/release/$source_bin"); done
   lipo -create -output "$WORK/bin/$bin" "${inputs[@]}"
   lipo -info "$WORK/bin/$bin"
 done
