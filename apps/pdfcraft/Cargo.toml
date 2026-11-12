@@ -81,4 +81,3 @@ winit = { version = "0.30", default-features = false }
 winresource = "0.1"
 
 [target.'cfg(windows)'.dependencies]
-craft-update = { workspace = true }
