@@ -40,6 +40,8 @@ allow-git = [
     # The reviewed egui 0.37 and winit 0.30.13 fork revisions (immutable pins in Cargo.toml).
     "https://github.com/storytold/egui",
     "https://github.com/storytold/winit",
+    # The shared Nodalia updater (`nodalia-update`), pinned to an immutable revision in Cargo.toml.
+    "https://github.com/getnodalia/nodalia-design",
 ]
 
 [advisories]
@@ -75,4 +77,11 @@ allow = ["OFL-1.1", "Ubuntu-font-1.0"]
 # only, never into PdfCraft. Remove when winprint makes those build-dependencies optional.
 [[licenses.exceptions]]
 crate = "webpki-root-certs"
+allow = ["CDLA-Permissive-2.0"]
+
+# webpki-roots is the Mozilla root certificate list (data, not code) that ureq uses to check
+# TLS for the shared updater (nodalia-update), so it is compiled into the app. The owner
+# approved CDLA-Permissive-2.0 for this crate only (2026-11-12).
+[[licenses.exceptions]]
+crate = "webpki-roots"
 allow = ["CDLA-Permissive-2.0"]
