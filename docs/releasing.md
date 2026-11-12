@@ -1,11 +1,11 @@
-# Releasing PdfCraft
+# Releasing Papel
 
 Every push to the `release` branch runs `.github/workflows/release.yml`. It builds installers for
 macOS, Windows, Linux, FreeBSD and the web, signs the ones it has certificates for, and creates or
 updates a **draft** GitHub Release named `PdfCraft v<version>`. Nobody sees a draft until a
 maintainer publishes it.
 
-The pipeline was ported from PhotoCraft's. User-facing names say **PdfCraft**; files, binaries and
+The pipeline was ported from Lienzo's. User-facing names say **Papel**; files, binaries and
 ids stay lowercase (`pdfcraft-<version>-<platform>-<arch>.<ext>`, `ai.storyteller.pdfcraft`).
 
 ## Cutting a release
@@ -88,7 +88,7 @@ The web build does not include these models, and OCR remains limited to the Lati
 
 `packaging/macos/package.sh` builds both architectures, joins them with `lipo`, and assembles
 `PdfCraft.app` from `Info.plist.in` (bundle id `ai.storyteller.pdfcraft`, macOS 11+, PDF declared
-as a document type with rank Alternate, so PdfCraft is offered under Open With without taking over
+as a document type with rank Alternate, so Papel is offered under Open With without taking over
 from Preview). Files opened from Finder arrive as Apple events, which
 `apps/pdfcraft/src/apple_events.rs` receives.
 
@@ -151,7 +151,7 @@ neither the MSI nor the portable zip needs the Visual C++ redistributable.
   limit for a `Document` verb) start one `pdfcraft.exe "<file>"` each, and the single-instance
   hand-off opens them as tabs. On Windows 11 it is under "Show more options"; a first-level entry
   needs an `IExplorerCommand` handler and package identity (a sparse MSIX package), which the MSI
-  doesn't have. "Combine files in PdfCraft" (#585) is a second verb in the same component,
+  doesn't have. "Combine files in Papel" (#585) is a second verb in the same component,
   `PdfCraft.Combine`, running `pdfcraft --combine "<file>"` once per selected file; the
   single-instance hand-off sends them with `"combine": true`, and the running app adds them to
   its Combine files tab (`OsEvent::Combine`). Both verbs come and go with `INSTALLPDFCONTEXTMENU`.
@@ -274,7 +274,7 @@ a match of the `CobaltStrikeBeacon` family rule.
    portable zip, not only the outer installer. `7z x -oDIR pdfcraft-<version>-windows-x64.msi`
    extracts them. The payload names are WiX-internal, so tell the executables apart by their file
    type. Don't install or run the MSI or the extracted files.
-4. **Scan with YARA and keep every match.** Use your own copies of YARA and the rule. PdfCraft
+4. **Scan with YARA and keep every match.** Use your own copies of YARA and the rule. Papel
    bundles neither, and the helper never runs in the app, the installer or CI:
 
    ```powershell
@@ -291,8 +291,8 @@ a match of the `CobaltStrikeBeacon` family rule.
    distinctive code or strings, and it does not show that the software belongs to the family. Rules
    change too: CAPEv2 commit `9b599185` (2024-12-05) lengthened this rule's two repeated-byte patterns
    from 4 to 16 bytes to reduce false positives, so an older rule revision can match files that the
-   current one does not. Don't alter PdfCraft's binaries to change a scanner's result. That changes
+   current one does not. Don't alter Papel's binaries to change a scanner's result. That changes
    nothing about the software.
 7. **Report.** To the scanner, send the file's SHA-256, the release URL, the rule name and revision,
-   and the matched identifiers and offsets. Report PdfCraft problems at
+   and the matched identifiers and offsets. Report Papel problems at
    <https://github.com/storytold/pdfcraft/issues> with the same facts.
