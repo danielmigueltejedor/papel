@@ -11,13 +11,8 @@
 
 /// Where this app's releases live, for the in-app updates (`updates_ui`).
 #[cfg(not(target_arch = "wasm32"))]
-pub const UPDATE_APP: nodalia_update::App = nodalia_update::App {
-    name: "Papel",
-    repo: "getnodalia/papel",
-    bundle: "PdfCraft.app",
-    version: env!("CARGO_PKG_VERSION"),
-    edition: None,
-};
+pub const UPDATE_APP: nodalia_update::App =
+    nodalia_update::App { name: "Papel", repo: "getnodalia/papel", bundle: "PdfCraft.app", version: env!("CARGO_PKG_VERSION"), edition: None };
 
 use crate::control::Host as _;
 
