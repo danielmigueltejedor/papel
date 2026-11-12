@@ -78,3 +78,10 @@ allow = ["OFL-1.1", "Ubuntu-font-1.0"]
 [[licenses.exceptions]]
 crate = "webpki-root-certs"
 allow = ["CDLA-Permissive-2.0"]
+
+# webpki-roots is the Mozilla root certificate list (data, not code) that ureq uses to check
+# TLS for the shared updater (nodalia-update), so it is compiled into the app. The owner
+# approved CDLA-Permissive-2.0 for this crate only (2026-11-12).
+[[licenses.exceptions]]
+crate = "webpki-roots"
+allow = ["CDLA-Permissive-2.0"]
