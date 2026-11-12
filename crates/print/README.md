@@ -68,7 +68,7 @@ Headless `doc_print` defaults are unchanged.
 
 `spool` delegates discovery, driver options, preferences and submission to
 [`craft-print`](https://github.com/storytold/craft-libs/tree/main/crates/print).
-PdfCraft retains page selection, imposition, annotations and print-permission checks.
+Papel retains page selection, imposition, annotations and print-permission checks.
 CUPS jobs stream through stdin with `fit-to-page=false`, and with `orientation-requested=4` when
 every sheet is landscape (`cups_orientation`), since CUPS would otherwise shrink a landscape
 sheet into portrait paper. On macOS they also carry the job name and owner
@@ -98,7 +98,7 @@ renamed `PdfCraftPrint<n>` in its `name` table and in the PDF (`/BaseFont`, `/Fo
 subset keeps its tag). Windows otherwise draws a subset's renumbered glyphs with the installed
 font of the same name, so ReportLab's Arial subsets printed as shifted letters (#3132). Glyphs,
 encodings and `/ToUnicode` are unchanged, and CUPS and Save as PDF get the PDF as it was. A
-program PdfCraft can't read and rewrite keeps its old name in the PDF too, so a viewer that
+program Papel can't read and rewrite keeps its old name in the PDF too, so a viewer that
 can't load it either still picks its substitute by that name.
 
 The shared dependency requires Rust 1.95. Transport and native Windows regression tests
@@ -108,7 +108,7 @@ the dialog; the Windows backend starts without a console window. Physical printe
 still needs hardware validation.
 
 In a browser there is no spooler: the app (`pdfcraft-ui-egui`'s `web_print`) draws the print-ready
-PDF's sheets with PdfCraft's renderer and prints them through the browser's print dialog, which
+PDF's sheets with Papel's renderer and prints them through the browser's print dialog, which
 sets copies, two-sided printing and colour. This crate stays free of web APIs.
 
 Not yet: poster labels, PostScript output, colour conversion for
