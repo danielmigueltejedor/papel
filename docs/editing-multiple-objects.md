@@ -39,7 +39,7 @@ here or in another application, wins ⌘V. Text drawn as a clipping path before 
 refused, as is artwork without resources of its own that names one, where a paste would change it.
 
 The supported items are the existing paragraph boxes, raster Image XObjects, whole Form artwork,
-and text/images added by PdfCraft. A Form remains one item, including its nested artwork and
+and text/images added by Papel. A Form remains one item, including its nested artwork and
 resources. Added items appear once in the selection inventory. Selections stay on one page and
 contain at most 1,000 items; pages with more than 10,000 recognised objects are refused for group
 selection. Content streams must decode completely within 64 MiB each and 128 MiB per page, with

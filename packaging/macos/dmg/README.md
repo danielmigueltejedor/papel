@@ -9,7 +9,7 @@ scripting on CI, nothing extra installed in the signing job).
 |---|---|
 | `background.svg` | Source of the background, drawn by `tools/dmg-background/draw_background.py` in [nodalia-design](https://github.com/getnodalia/nodalia-design): two Nodalia islands on the window colour, the left one in the Papel colour (`#8794AD`) with a flat picture of what Papel does, the right one white under the icons. Its text (Sora) is outlined, so rendering it needs no fonts. |
 | `background.tiff` | The background at 1x (660 × 400 px, 72 dpi) and 2x (1320 × 800 px, 144 dpi) in one HiDPI TIFF (16-colour palette, Deflate, sRGB). Goes to `.background/background.tiff`. |
-| `dmg-layout.DS_Store` | Finder's view settings for the volume: window size, icon size 128, PdfCraft.app at (326, 205), `Applications` at (574, 205), and the background. Goes to `.DS_Store` in the image; named so it isn't mistaken for (or ignored like) a Finder-generated `.DS_Store`. |
+| `dmg-layout.DS_Store` | Finder's view settings for the volume: window size, icon size 128, Papel.app at (326, 205), `Applications` at (574, 205), and the background. Goes to `.DS_Store` in the image; named so it isn't mistaken for (or ignored like) a Finder-generated `.DS_Store`. |
 | `generate.py` | Writes `background.tiff` and `dmg-layout.DS_Store` from the SVG and the layout above. |
 
 ## The volume name has no version
@@ -41,4 +41,4 @@ alias holding only the volume name and `/.background/background.tiff`. If you ad
 outline it (`usvg` from resvg converts text to paths). The window is 660 × 432 with Finder's 32 pt
 title bar; the content area is 660 × 400.
 
-This follows VectorCraft's `packaging/macos/dmg/` (storytold/vectorcraft#493).
+This follows Pluma's `packaging/macos/dmg/` (storytold/vectorcraft#493).
