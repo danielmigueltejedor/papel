@@ -5516,15 +5516,16 @@ fn selected_square_under_the_update_prompt() -> Harness<'static, PdfCraftApp> {
             let deadline = std::time::Instant::now() + std::time::Duration::from_secs(60);
             while !answer.load(Ordering::SeqCst) {
                 if std::time::Instant::now() >= deadline {
-                    return Ok(None);
+                    return Ok(nodalia_update::Check::UpToDate);
                 }
                 std::thread::sleep(std::time::Duration::from_millis(5));
             }
-            Ok(Some(craft_update::Release {
+            Ok(nodalia_update::Check::Available(nodalia_update::Release {
                 tag: "v99.0.0".into(),
-                version: craft_update::parse_version("v99.0.0"),
-                html_url: "https://example.invalid/release".into(),
-                ..Default::default()
+                version: "99.0.0".into(),
+                notes: String::new(),
+                page: "https://example.invalid/release".into(),
+                asset: None,
             }))
         }));
         app.set_option("quick", "square").unwrap();
@@ -5536,7 +5537,7 @@ fn selected_square_under_the_update_prompt() -> Harness<'static, PdfCraftApp> {
     assert_eq!(h.state().views[0].comments.selected, Some((0, 0)));
     found.store(true, Ordering::SeqCst);
     let deadline = std::time::Instant::now() + std::time::Duration::from_secs(30);
-    while h.query_by_label_contains("is available").is_none() {
+    while h.query_by_label_contains("Is Available").is_none() {
         h.run_steps(2);
         assert!(std::time::Instant::now() < deadline, "timed out waiting for the update prompt");
         std::thread::sleep(std::time::Duration::from_millis(5));
@@ -5554,14 +5555,14 @@ fn keys_under_the_update_prompt_leave_the_selected_comment() {
         if full_screen {
             assert!(h.state_mut().execute("view.full_screen"));
             h.run_steps(4);
-            assert!(h.state().full_screen && h.query_by_label_contains("is available").is_some(), "full screen, the prompt over it");
+            assert!(h.state().full_screen && h.query_by_label_contains("Is Available").is_some(), "full screen, the prompt over it");
         }
         h.key_press(egui::Key::Delete);
         h.run_steps(3);
         assert_eq!(comments(&h).len(), 1, "Delete under the update prompt deleted the comment (full screen: {full_screen})");
         h.key_press(egui::Key::Escape);
         h.run_steps(3);
-        assert!(h.query_by_label_contains("is available").is_none(), "Escape closed the prompt");
+        assert!(h.query_by_label_contains("Is Available").is_none(), "Escape closed the prompt");
         assert_eq!(h.state().full_screen, full_screen, "the Escape that closed the prompt is the prompt's alone");
         let selected = h.state().views[0].comments.selected;
         assert_eq!(selected, Some((0, 0)), "Escape under the update prompt deselected the comment (full screen: {full_screen})");
@@ -5577,7 +5578,7 @@ fn edit_delete_from_a_native_menu_under_the_update_prompt_leaves_the_comment() {
     h.state_mut().run_menu_command(&ctx, &craft_menu::CommandRef::new("edit.delete"));
     h.run_steps(4);
     assert_eq!(comments(&h).len(), 1, "Edit ▸ Delete under the update prompt deleted the comment");
-    assert!(h.query_by_label_contains("is available").is_some(), "the prompt is still open");
+    assert!(h.query_by_label_contains("Is Available").is_some(), "the prompt is still open");
 }
 
 /// "Open in Full Screen mode?", asked for a document that wants it, leaves the menus on as the
