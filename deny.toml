@@ -40,6 +40,8 @@ allow-git = [
     # The reviewed egui 0.37 and winit 0.30.13 fork revisions (immutable pins in Cargo.toml).
     "https://github.com/storytold/egui",
     "https://github.com/storytold/winit",
+    # The shared Nodalia updater (`nodalia-update`), pinned to an immutable revision in Cargo.toml.
+    "https://github.com/getnodalia/nodalia-design",
 ]
 
 [advisories]
