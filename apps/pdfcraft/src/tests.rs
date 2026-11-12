@@ -736,7 +736,7 @@ fn the_flatpak_manifests_pin_the_craft_i18n_rev() {
     for manifest in ["ai.storyteller.pdfcraft.yml", "ai.storyteller.pdfcraft.bundle.yml"] {
         let text = std::fs::read_to_string(root.join("packaging/linux/flatpak").join(manifest)).unwrap();
         let source =
-            text.split("url: https://github.com/storytold/craft-i18n").nth(1).unwrap_or_else(|| panic!("{manifest}: a craft-i18n git source"));
+            text.split("url: https://github.com/getnodalia/foundation").nth(1).unwrap_or_else(|| panic!("{manifest}: a craft-i18n git source"));
         let source = source.split("- type:").next().unwrap_or(source);
         let commit = source
             .lines()
