@@ -82,7 +82,7 @@ From a source build, `trunk build --release` doesn't fetch the models. Add them 
 ```html
 <iframe
   src="https://example.com/pdfcraft/"
-  title="Papel PDF workbench"
+  title="PdfCraft PDF workbench"
   style="width: 100%; height: 720px; border: 0;"
   allow="fullscreen; clipboard-read; clipboard-write"
   allowfullscreen>

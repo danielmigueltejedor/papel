@@ -72,8 +72,8 @@ do not contact a desktop session bus. Page and document colours retain their exi
 
 The desktop app writes its `log` records to standard error and to `logs/pdfcraft.log` in its
 data folder: Linux and FreeBSD `~/.local/share/pdfcraft/logs/` (or
-`$XDG_DATA_HOME/pdfcraft/logs/`), macOS `~/Library/Application Support/Papel/logs/`, Windows
-`%APPDATA%\Papel\data\logs\`. In portable mode (a `portable.txt` file next to the executable, as
+`$XDG_DATA_HOME/pdfcraft/logs/`), macOS `~/Library/Application Support/PdfCraft/logs/`, Windows
+`%APPDATA%\PdfCraft\data\logs\`. In portable mode (a `portable.txt` file next to the executable, as
 the Windows portable zip ships) the settings folder is `PdfCraftData\` beside the executable, and
 crash recovery and new digital IDs go there too. A start from a desktop menu, Finder or the Start
 menu has no terminal, so this file is what to attach to a bug report: a failed autosave, a page that
