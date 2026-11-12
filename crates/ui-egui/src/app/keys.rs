@@ -1,4 +1,4 @@
-use super::*;
+use super::{PdfCraftApp, QuickTool, RightPanel, canvas, comments, dialogs, object_ui, prepare};
 use crate::page_keys::PageKeys;
 
 impl PdfCraftApp {
