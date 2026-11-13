@@ -70,7 +70,7 @@ jobs:
 
   gate:
     if: github.event.action != 'labeled' || github.event.label.name == 'full-ci'
-    uses: getnodalia/foundation/.github/workflows/rust-gate.yml@57e81c5afd33d40a3810cc742c72fd8111291e9f # foundation main
+    uses: getnodalia/foundation/.github/workflows/rust-gate.yml@ec62c63fd3206e4ed729fccf18a57170f8fa5dd6 # foundation main
     with:
       # Windows on main, manual runs and pull requests labelled `full-ci`. No macOS on PRs or main:
       # the org's 5 macOS slots are kept for release builds, and release.yml builds macOS.
