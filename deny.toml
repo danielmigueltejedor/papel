@@ -32,14 +32,11 @@ allow-wildcard-paths = true
 [sources]
 unknown-registry = "deny"
 unknown-git = "deny"
-# Shared UI components and spooler; Cargo.toml pins the immutable revision. craft-print pins
-# storytold's winprint fork (Windows printing, #1107) to an immutable revision of its own.
+# Shared UI components and spooler, the winprint fork (Windows printing, #1107) and the reviewed
+# egui 0.37 / winit 0.30.13 fork revisions, all mirrored in getnodalia/foundation. Cargo.toml pins
+# each to an immutable revision.
 allow-git = [
-    "https://github.com/storytold/craft-libs",
-    "https://github.com/storytold/winprint.rs",
-    # The reviewed egui 0.37 and winit 0.30.13 fork revisions (immutable pins in Cargo.toml).
-    "https://github.com/storytold/egui",
-    "https://github.com/storytold/winit",
+    "https://github.com/getnodalia/foundation",
     # The shared Nodalia updater (`nodalia-update`), pinned to an immutable revision in Cargo.toml.
     "https://github.com/getnodalia/nodalia-design",
 ]

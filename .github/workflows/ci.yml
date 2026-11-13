@@ -24,6 +24,7 @@ jobs:
   # The shared gate doesn't check where git dependencies come from; release.yml runs the same job.
   git-sources:
     if: github.event.action != 'labeled' || github.event.label.name == 'full-ci'
+    # The check keeps its old name: branch protection may require it. Sources now come from getnodalia.
     name: Git dependencies come from storytold
     runs-on: ubuntu-latest
     permissions:
@@ -35,7 +36,7 @@ jobs:
       - name: Windows font notice regressions
         shell: pwsh
         run: ./packaging/windows/test-font-notices.ps1
-      - name: Git dependencies come from storytold
+      - name: Git dependencies come from Nodalia
         run: |
           set -euo pipefail
           test -f Cargo.lock || { echo "Cargo.lock is missing"; exit 1; }
@@ -61,9 +62,9 @@ jobs:
           lock = tomllib.load(open("Cargo.lock", "rb"))
           bad = sorted({p["source"] for p in lock.get("package", [])
                         if p.get("source", "").startswith("git+")
-                        and not p["source"].startswith(("git+https://github.com/storytold/", "git+https://github.com/getnodalia/"))})
+                        and not p["source"].startswith(("git+https://github.com/getnodalia/",))})
           if bad:
-              print("Git dependencies outside github.com/storytold and github.com/getnodalia:", *bad, sep="\n")
+              print("Git dependencies outside github.com/getnodalia:", *bad, sep="\n")
               sys.exit(1)
           PY
 
