@@ -74,3 +74,7 @@ least likely to know about. Please read `AGENTS.md` §1 before adding any asset.
 <!-- The judgement call you are least sure about, a deliberate restraint you want pinned,
      or a behaviour change existing users will notice. Say so here rather than leaving it
      to be found. -->
+
+## Compatibility and release impact
+
+<!-- Note affected platforms, migrations or distribution changes when applicable. -->
