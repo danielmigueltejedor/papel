@@ -18,7 +18,7 @@ interface follows Foundation's [NDL standard](https://github.com/getnodalia/foun
 
 | Dependency | Where | Replacement | Blocked on |
 |---|---|---|---|
-| `storytold/craft-common-actions` | `.github/workflows/release.yml`, `.github/workflows/windows-arm64.yml` | Foundation reusable workflows (release, refresh-contributors, windows-arm64) | writing and testing them |
+| `storytold/craft-common-actions` | `.github/workflows/windows-arm64.yml` | Foundation reusable workflows (release, refresh-contributors, windows-arm64) | writing and testing them |
 | `storytold/craft-fonts` | `.github/pull_request_template.md`, `xtask/src/assets.rs` | getnodalia/foundation `vendor/craft-fonts/main` | repointing |
 | `storytold/craft-i18n` | `Cargo.toml`, `crates/ui-egui/build.rs` | getnodalia/foundation `vendor/craft-i18n/main` | repointing |
 | `storytold/craft-libs` | `packaging/web/README.md` | to decide | — |
@@ -57,3 +57,11 @@ menu exported over D-Bus on Linux.
 
 1. Read AGENTS.md and this file.
 2. Pick the first item of "Recommended order".
+
+## Releases
+
+Papel releases through `release-auto.yml` like every Nodalia app (Foundation's `release-tag` and
+`release-publish`, with `release-linux.yml`, `release-macos.yml` and `release-windows.yml`). The
+packages are still named `pdfcraft-X.Y.Z-…`: rename them (packaging scripts, the release workflows,
+`app=` in `scripts/check-release-notes.sh`) before the first release. Until then the notes check
+refuses any notes, since they would have to name `pdfcraft` files.
