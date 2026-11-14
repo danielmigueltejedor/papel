@@ -21,7 +21,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  # The shared gate doesn't check where git dependencies come from; release.yml runs the same job.
+  # The shared gate doesn't check where git dependencies come from; the release-*.yml workflows runs the same job.
   git-sources:
     if: github.event.action != 'labeled' || github.event.label.name == 'full-ci'
     # The check keeps its old name: branch protection may require it. Sources now come from getnodalia.
@@ -73,9 +73,9 @@ jobs:
     uses: getnodalia/foundation/.github/workflows/rust-gate.yml@976581262c95c0d95c0184149c0e1ba55485ccb3 # foundation main
     with:
       # Windows on main, manual runs and pull requests labelled `full-ci`. No macOS on PRs or main:
-      # the org's 5 macOS slots are kept for release builds, and release.yml builds macOS.
+      # the org's 5 macOS slots are kept for release builds, and the release-*.yml workflows builds macOS.
       os: ${{ (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'full-ci')) && '["ubuntu-24.04","windows-latest"]' || '["ubuntu-24.04"]' }}
-      # Same craft-fonts commit as release.yml and freebsd.yml.
+      # Same craft-fonts commit as the release-*.yml workflows and freebsd.yml.
       fonts-repository: getnodalia/foundation
       i18n-repository: getnodalia/foundation
       fonts-ref: b076417b5880bd4154bd22f00695b1d28c6bea83
